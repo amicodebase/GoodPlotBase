@@ -1,0 +1,63 @@
+\documentclass{standalone}
+\usepackage{pgfplots}
+\pgfplotsset{compat=newest}
+\pgfplotsset{/pgfplots/error bars/error bar style={thin}}
+\pgfplotsset{
+  every axis plot/.append style={very thick, black},
+}
+
+\begin{document}
+\begin{tikzpicture}
+\begin{axis}[
+xmax=500,
+xmin=0,
+xtick={0,100,...,500},
+ymax=-4000,
+ymin=-8500,
+legend pos= south east,
+grid=major,
+xlabel = {Episode},
+ylabel = {Reward}
+]
+\addplot [smooth, thick, red, error bars/.cd, y dir=both, y explicit,
+error bar style={line width=0.5pt,solid, black},
+error mark options={line width=0.5pt,mark size=2pt,rotate=90, black}]
+table [x=x, y=y, y error=y-err]{%
+x y y-err
+20	-6708.1	1385.295062
+40	-5242.9	364.3461157
+60	-5113.34	139.4722711
+80	-5269.6	439.4819678
+100	-5157.52	153.8420151
+120	-5186.64	114.6423761
+140	-5539.22	550.26187
+160	-6060.6	488.5678459
+180	-5499.14	476.7789995
+200	-5375.58	352.0224277
+220	-5360.64	262.3090513
+240	-5491.62	732.0339921
+260	-5145.04	331.605269
+280	-5201.54	267.8270382
+300	-5264.3	602.7926111
+320	-5271.14	601.4319267
+340	-4938.68	291.0188269
+360	-5659.52	330.0014145
+380	-5323.26	372.2896754
+400	-4925.6	204.6342396
+420	-4919.04	183.4921862
+440	-4947.36	144.1731265
+460	-5013.32	200.4634969
+480	-5037.8	225.9569694
+};
+
+\addplot[thick, blue, dashed] 
+coordinates                       
+{                               
+(0, -7024.43287896905)
+(500, -7024.43287896905)
+};
+\addlegendentry{DDPG}
+\addlegendentry{Heuristic}
+\end{axis}
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,42 @@
+\documentclass[varlength,tikz]{standalone}
+
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.10}
+
+% MULTIPLICATION 
+\usepackage{expl3}[2012-07-08]
+\ExplSyntaxOn
+\cs_new_eq:NN \fpeval \fp_eval:n
+\ExplSyntaxOff
+
+\begin{document}
+\newcommand\utilAF{2}
+\newcommand\utilBF{-15}
+\newcommand\utilBFN{15}
+\newcommand\utilCF{3}
+\newcommand\utilDF{2.5}
+\newcommand\utilAL{-3}
+\newcommand\utilBL{-2.2}
+\newcommand\utilCL{-2}
+\newcommand\utilDL{-3}
+\newcommand\qlambda{0.5}
+
+\begin{tikzpicture}[scale=0.8]
+\begin{axis}[xmin=0,xmax=1,ymin=-3.1,ymax=-2.0, width=7cm, 
+    xlabel={Probability of action $o$}, 
+    ylabel={Leader's expected utility}, 
+    samples=100,
+    legend pos=south east,
+    width=\fpeval{1.0*\axisdefaultwidth},
+    height=\fpeval{0.7*\axisdefaultheight}]
+    
+  \addplot[domain=0:1, black, dashed, thick] {((-\utilAF * x - \utilBF*(1-x)) * e^(\qlambda*(\utilAF * x + \utilBF*(1-x))) + (-\utilCF * x - \utilDF*(1-x)) * e^(\qlambda*(\utilCF * x + \utilDF*(1-x)))) / ( e^(\qlambda*(\utilAF * x + \utilBF*(1-x))) + e^(\qlambda*(\utilCF * x + \utilDF*(1-x))))};
+  
+  % forget ... not added to legend
+  \addplot[domain=0:1, black, dashed, ultra thick,forget plot] {-2.2};
+  
+  
+  \legend{General-sum};
+\end{axis}
+\end{tikzpicture}
+\end{document}

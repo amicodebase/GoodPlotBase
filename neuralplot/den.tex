@@ -1,0 +1,203 @@
+\documentclass{standalone}
+\usepackage{color}
+\usepackage{tikz}
+\usepackage{pgfplots}
+\usepackage{pgf-umlsd}
+\usepackage{tikz}
+\usepackage{bm}
+
+\usetikzlibrary{backgrounds,fit,decorations.pathreplacing} 
+
+\pgfplotsset{compat=1.16} 
+
+
+%%%%%%%%%%%%%
+%Figure adapted from: http://www.texample.net/tikz/examples/neural-network/
+%Neuron style from: Yoon, Jaehong, Eunho Yang, Jeongtae Lee, and Sung Ju Hwang. "Lifelong learning with dynamically expandable networks." arXiv preprint arXiv:1708.01547 (2017).
+%%%%%%%%%%%%%
+
+\begin{document}
+\pagestyle{empty}
+
+\def\layersep{1.5cm}
+
+\begin{tikzpicture}[-stealth, semithick, minimum size=15pt, inner sep=0]
+% \tikzstyle{every pin edge}=[<-,shorten <=1pt]
+\tikzstyle{annot} = [text width=6em, text centered]
+\tikzstyle{surround} = [fill=blue!10,thick,draw=black,rounded corners=2mm]    
+\newcommand{\newneuron}[5]{
+    \def\name{#1} % name of the neuron
+    \def\x{#2} % x coordinate of the neuron
+	\def\y{#3} % y coordinate of the neuron
+	\def\color{#4} % color of the neuron
+	\def\size{#5} % size of the neuron
+	\node[draw=black, very thick, fill=\color!50, circle, minimum size=\size] (\name) at (\x, \y) {};
+	\node[draw=black, semithick, circle, minimum size=0.75*\size] at (\x, \y) {};
+}
+
+\newcommand{\delneuron}[5]{
+    \def\name{#1} % name of the neuron
+    \def\x{#2} % x coordinate of the neuron
+	\def\y{#3} % y coordinate of the neuron
+	\def\color{#4} % color of the neuron
+	\def\size{#5} % size of the neuron
+	\node[draw=black, dashed, very thick, circle, minimum size=\size] (\name) at (\x, \y) {};
+	\node[draw=black,  dashed, semithick, circle, minimum size=0.75*\size] at (\x, \y) {};
+	\draw[-] (\name.south east) -- (\name.north west);
+	\draw[-] (\name.south west) -- (\name.north east);
+}
+
+\begin{scope}
+%left-net
+%draw input layer
+\path node[draw,circle] at (0,0) (I-1) {$x_{1}$};
+\path node[draw,circle] at (1,0) (I-2) {$x_{1}$};
+\path node[draw,circle] at (3,0) (I-n) {$x_{1}$};
+\path node[circle] at (2,0) {$\cdots$};
+
+%draw hidden 1 layer
+\newneuron{H1-1}{0}{\layersep}{yellow}{15pt};
+\newneuron{H1-2}{1}{\layersep}{white}{15pt};
+\newneuron{H1-3}{2}{\layersep}{yellow}{15pt};
+\newneuron{H1-4}{3}{\layersep}{yellow}{15pt};
+
+%draw hidden 2 layer
+\newneuron{H2-1}{0.5}{2*\layersep}{yellow}{15pt};
+\newneuron{H2-2}{1.5}{2*\layersep}{yellow}{15pt};
+\newneuron{H2-3}{2.5}{2*\layersep}{yellow}{15pt};
+
+%draw output layer
+\newneuron{O-1}{0.5}{3*\layersep}{blue}{15pt};
+\newneuron{O-2}{2.5}{3*\layersep}{red}{15pt};
+
+\foreach \source in {1,2,n}
+\foreach \dest in {1,...,4}
+    \draw (I-\source) -- (H1-\dest);
+\foreach \source in {1,...,4}
+\foreach \dest in {1,...,3}
+    \draw (H1-\source) -- (H2-\dest);
+\foreach \source in {1,...,3}
+\foreach \dest in {1,...,2}
+    \draw (H2-\source) -- (O-\dest);
+    
+\draw[ultra thick] (0, 5) -- (3, 5);
+\path (0.5, 5) node[label=above:{\textbf{\large{$\bm{t}$}}}]  {$+$};
+\path (2.5, 5) node[label=above:{\textbf{\large{$\bm{t+1}$}}}]  {$+$};
+
+\draw[very thick, rounded corners] (H1-1.south west)+(-0.25, -0.25) rectangle ([xshift=0.25cm, yshift=0.25cm] H1-4.north east);
+\draw[very thick, rounded corners] (H2-1.south west)+(-0.25, -0.25) rectangle ([xshift=0.25cm, yshift=0.25cm] H2-3.north east);
+\end{scope}
+
+\begin{scope}[xshift=7.5cm]
+%left-net
+%draw input layer
+\path node[draw,circle] at (0,0) (I-1) {$x_{1}$};
+\path node[draw,circle] at (1,0) (I-2) {$x_{1}$};
+\path node[draw,circle] at (3,0) (I-n) {$x_{1}$};
+\path node[circle] at (2,0) {$\cdots$};
+
+%draw hidden 1 layer
+\newneuron{H1-1}{-1}{\layersep}{yellow}{15pt};
+\newneuron{H1-2}{0}{\layersep}{white}{15pt};
+\newneuron{H1-3}{1}{\layersep}{yellow}{15pt};
+\path node at (2, \layersep) (H1-4) {\textbf{\large{+}}};
+% \newneuron{H1-4}{2}{\layersep}{yellow}{15pt};
+\delneuron{H1-5}{3}{\layersep}{yellow}{15pt};
+\newneuron{H1-6}{4}{\layersep}{yellow}{15pt};
+
+%draw hidden 2 layer
+\newneuron{H2-1}{0}{2*\layersep}{yellow}{15pt};
+\newneuron{H2-2}{1}{2*\layersep}{yellow}{15pt};
+\path node at (2, 2*\layersep) (H2-3) {\textbf{\large{+}}};
+% \newneuron{H2-3}{2}{2*\layersep}{yellow}{15pt};
+\newneuron{H2-4}{3}{2*\layersep}{yellow}{15pt};
+\delneuron{H2-5}{4}{2*\layersep}{yellow}{15pt};
+
+%draw output layer
+\newneuron{O-1}{0.5}{3*\layersep}{blue}{15pt};
+\newneuron{O-2}{2.5}{3*\layersep}{red}{15pt};
+
+\foreach \source in {1,2,n}
+\foreach \dest in {1,2,3,6}
+    \draw (I-\source) -- (H1-\dest);
+\foreach \source in {1,2,3,6}
+\foreach \dest in {1,2,4}
+    \draw (H1-\source) -- (H2-\dest);
+\foreach \source in {1,2,4}
+\foreach \dest in {1,...,2}
+    \draw (H2-\source) -- (O-\dest);
+    
+\draw[ultra thick] (0, 5) -- (3, 5);
+\path (0.5, 5) node[label=above:{\textbf{\large{$\bm{t}$}}}]  {$+$};
+\path (2.5, 5) node[label=above:{\textbf{\large{$\bm{t+1}$}}}]  {$+$};
+
+\draw[very thick, rounded corners] (H1-1.south west)+(-0.25, -0.25) rectangle ([xshift=0.25cm, yshift=0.25cm] H1-3.north east);
+\draw[very thick, rounded corners] (H1-5.south west)+(-0.25, -0.25) rectangle ([xshift=0.25cm, yshift=0.25cm] H1-6.north east);
+
+
+\draw[very thick, rounded corners] (H2-1.south west)+(-0.25, -0.25) rectangle ([xshift=0.25cm, yshift=0.25cm] H2-2.north east);
+\draw[very thick, rounded corners] (H2-4.south west)+(-0.25, -0.25) rectangle ([xshift=0.25cm, yshift=0.25cm] H2-5.north east);
+
+% \begin{pgfonlayer}{background} 
+% \node[surround] (background) [fit = (H1-1) (H1-3)] {};
+% \end{pgfonlayer}
+\end{scope}
+
+\begin{scope}[xshift=16.5cm]
+%left-net
+%draw input layer
+\path node[draw,circle] at (0,0) (I-1) {$x_{1}$};
+\path node[draw,circle] at (1,0) (I-2) {$x_{1}$};
+\path node[draw,circle] at (3,0) (I-n) {$x_{1}$};
+\path node[circle] at (2,0) {$\cdots$};
+
+%draw hidden 1 layer
+\newneuron{H1-1}{-1.5}{\layersep}{black}{15pt};
+\newneuron{H1-2}{-0.5}{\layersep}{white}{15pt};
+\newneuron{H1-3}{0.5}{\layersep}{black}{15pt};
+\newneuron{H1-4}{1.5}{\layersep}{black}{15pt};
+\newneuron{H1-5}{2.5}{\layersep}{yellow}{15pt};
+\newneuron{H1-6}{3.5}{\layersep}{yellow}{15pt};
+\newneuron{H1-7}{4.5}{\layersep}{yellow}{15pt};
+
+%draw hidden 2 layer
+% \draw node
+\newneuron{H2-1}{-0.5}{2*\layersep}{yellow}{15pt};
+\newneuron{H2-2}{0.5}{2*\layersep}{yellow}{15pt};
+\newneuron{H2-3}{1.5}{2*\layersep}{yellow}{15pt};
+\newneuron{H2-4}{2.5}{2*\layersep}{yellow}{15pt};
+\newneuron{H2-5}{3.5}{2*\layersep}{yellow}{15pt};
+
+%draw output layer
+\newneuron{O-1}{0.5}{3*\layersep}{blue}{15pt};
+\newneuron{O-2}{2.5}{3*\layersep}{red}{15pt};
+
+\foreach \source in {1,2,n}
+\foreach \dest in {1,...,7}
+    \draw (I-\source) -- (H1-\dest);
+\foreach \source in {1,...,7}
+\foreach \dest in {1,...,5}
+    \draw (H1-\source) -- (H2-\dest);
+\foreach \source in {1,...,5}
+\foreach \dest in {1,...,2}
+    \draw (H2-\source) -- (O-\dest);
+    
+\draw[ultra thick] (0, 5) -- (3, 5);
+\path (0.5, 5) node[label=above:{\textbf{\large{$\bm{t}$}}}]  {$+$};
+\path (2.5, 5) node[label=above:{\textbf{\large{$\bm{t+1}$}}}]  {$+$};
+
+\draw[very thick, rounded corners] (H1-1.south west)+(-0.25, -0.25) rectangle ([xshift=0.25cm, yshift=0.25cm] H1-7.north east);
+\draw[very thick, rounded corners] (H2-1.south west)+(-0.25, -0.25) rectangle ([xshift=0.25cm, yshift=0.25cm] H2-5.north east);
+\end{scope}
+
+\draw[ultra thick] (4,3) to node[label=above:{if $\mathcal{L}^{t}>\tau$}] {} (6, 3);
+\draw[ultra thick]  (13,3) to node[label=above:{if $\rho^{t}>\sigma$}] {} (15, 3);
+% Annotate the layers
+% \node[annot,above of=H-1, node distance=1cm] (hl) {Hidden layer};
+% \node[annot,left of=hl, node distance=\layersep] {Input layer};
+% \node[annot,right of=hl, node distance=\layersep] {Output layer};
+\end{tikzpicture}
+% End of code
+
+
+\end{document}

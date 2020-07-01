@@ -1,0 +1,356 @@
+\documentclass[varlength]{standalone}
+
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.10}
+
+% MULTIPLICATION 
+\usepackage{expl3}[2012-07-08]
+\ExplSyntaxOn
+\cs_new_eq:NN \fpeval \fp_eval:n
+\ExplSyntaxOff
+
+\begin{document}
+\newcommand\fscale{0.45}
+\newcommand\fmskip{.0cm}
+\newcommand\fmarksize{3pt}
+\newcommand\xscale{1.11}
+\newcommand\yscale{1.0}
+\begin{tikzpicture}[scale=\fscale]
+\begin{semilogyaxis}[ % semilogyaxis
+    title={\Huge Small machines},
+    width=\fpeval{\xscale*\axisdefaultwidth},
+    height=\fpeval{\yscale*\axisdefaultheight},
+    xlabel={Configuration},
+    ylabel style={align=center},
+    ylabel={Number of strategies (LOG)},
+    %xmin=-0.1, xmax=4,
+    ymin=0.0, ymax=1000000000,
+    xtick={0,1,2},
+    xticklabels={$c_1$, $c_2$, $c_3$},
+    ytick={0.01,1, 10, 100, 1000, 10000, 100000, 1000000,10000000,100000000, 1000000000},
+    legend pos=north east,
+    legend style={font=\small},
+    ymajorgrids=true,
+    grid style=dashed,
+    scaled ticks=false, 
+    %log ticks with fixed point,
+    mark size=\fmarksize,
+    label style={font=\huge},
+    tick label style={/pgf/number format/fixed, font=\Large} 
+]
+
+\draw[thick, dashdotdotted] (axis cs:\pgfkeysvalueof{/pgfplots/xmin},437954000) -- (axis cs:\pgfkeysvalueof{/pgfplots/xmax},437954000);
+
+    \addplot[
+    color=black,
+    mark=o,
+    error bars/.cd,
+    y dir=both, y explicit
+    ]
+    coordinates {
+    (0, 9)
+    (1, 69)
+    (2, 195)
+    };
+    
+        \draw[thick, dashdotted] (axis cs:\pgfkeysvalueof{/pgfplots/xmin},632878235.3) -- (axis cs:\pgfkeysvalueof{/pgfplots/xmax},632878235.3);
+ 
+\addplot[
+    color=black,
+    mark=square,
+    error bars/.cd,
+    y dir=both, y explicit
+    ]
+    coordinates {
+    (0, 48)
+    (1, 69)
+    (2, 141)
+    };
+   
+       \draw[thick, dotted] (axis cs:\pgfkeysvalueof{/pgfplots/xmin},610335000) -- (axis cs:\pgfkeysvalueof{/pgfplots/xmax},610335000);
+    
+   \addplot[
+    color=black,
+    mark=triangle,
+    error bars/.cd,
+    y dir=both, y explicit
+    ]
+    coordinates {
+    (0, 20) 
+    (1, 50) 
+    (2, 70)
+    };
+    
+    \draw[thick, dashed] (axis cs:\pgfkeysvalueof{/pgfplots/xmin},350335000) -- (axis cs:\pgfkeysvalueof{/pgfplots/xmax},350335000);
+           
+       \addplot[
+    color=black,
+    mark=diamond,
+    error bars/.cd,
+    y dir=both, y explicit
+    ]
+    coordinates {
+    (0, 16) 
+    (1, 48) 
+    (2, 118)
+    };
+    
+    
+    \legend{2P/5, 3/5, 4/4, 2/7}
+   
+\end{semilogyaxis}
+\end{tikzpicture}
+
+\begin{tikzpicture}[scale=\fscale]
+\begin{semilogyaxis}[
+    title={\Huge Relative deviation error},
+    width=\fpeval{\xscale*\axisdefaultwidth},
+    height=\fpeval{\yscale*\axisdefaultheight},
+    xlabel={Configuration},
+    ylabel style={align=center},
+    ylabel={Deviation ratio (LOG)},
+     %xmin=-0.1, xmax=1.0,
+    ymin=-1.0, ymax=0.7,
+    xtick={0,1,2},
+    xticklabels={$c_1$, $c_2$, $c_3$},
+    ytick={0.001,0.002,0.005, 0.01, 0.02, 0.04,0.07,0.12, 0.2, 0.35, 0.6},
+    legend pos=south west,
+    legend style={font=\tiny} ,
+    ymajorgrids=true,
+    grid style=dashed,
+    scaled ticks=false, 
+    log ticks with fixed point,
+    mark size=\fmarksize,
+    legend columns=2,
+    label style={font=\huge},
+    tick label style={/pgf/number format/fixed, font=\Large} 
+]
+
+	% 2 / 5
+    \addplot[
+    color=black,
+    mark=o,
+    error bars/.cd,
+    y dir=both, y explicit
+    ]
+    coordinates {
+    (0,0.06720694854) +- (0.02056200297, 0.02056200297)		
+    (1,	0.03556422738) +- (0.009759018158, 0.009759018158)
+    (2,	0.001234309207)  +- (0.001293982222, 0.001293982222)
+    %(0.01,1.611345302)(0.05,1.771354988)(0.1,1.631815664)(0.15,2.331776755)(0.2,10.19875663)(0.25,12.92064083)(0.3,14.32526841)
+    };
+    
+   \addplot[
+    color=black,
+    mark=oplus*,
+    error bars/.cd,
+    y dir=both, y explicit
+    ]
+    coordinates {
+    (0,0.535173467) +- (0.04255442112,0.04255442112)
+    (1,	0.1878781035) +- (0.01419388422,0.01419388422)
+    (2,	0.1270567194) +- (0.0112527989,0.0112527989)
+    };
+   
+ 	%  3 / 5
+\addplot[
+    color=black,
+    mark=square,
+    error bars/.cd,
+    y dir=both, y explicit
+    ]
+    coordinates {
+    %(0.0,0.01818590397)(0.2,0.01944247039)(0.4,0.02372526299)(0.6,0.03833709371)
+    (0,0.1406431727)  +- (0.02118593668, 0.02118593668)	
+    (1,	0.06149778249)  +- (0.02241827925,0.02241827925)
+    (2,	0.06149778249)  +- (0.01905543692,0.01905543692)
+    %(0.01,1.204)(0.05,1.352)(0.1,1.739)(0.15,2.782)(0.2,9.619)(0.25,8.681)(0.3,10.075)
+    };
+    
+   \addplot[
+    color=black,
+    mark=square*,
+    dashed,
+    error bars/.cd,
+    error bar style={solid},
+    y dir=both, y explicit
+    ]
+    coordinates {
+    (0,0.1346075078) +- (0.01160909032,0.01160909032)
+    (1,0.1346075078) +- (0.01160909032,0.01160909032)
+    (2,0.1343888785) +- (0.009462866757,0.009462866757)
+    };
+    
+    % 4 / 4
+    \addplot[
+    color=black,
+    mark=triangle,
+    error bars/.cd,
+    y dir=both, y explicit
+    ]
+    coordinates {
+        % 0.1237743432	0.04912237939	0.03614956495
+        % 0.02158526403	0.01017568857	0.005535634796
+    (0,0.1237743432) +- (0.02158526403, 0.02158526403)
+    (1,	0.04912237939) +- (0.01017568857,0.01017568857)
+    (2,	0.03614956495) +- (0.005535634796,0.005535634796)
+    };
+    
+     \addplot[
+    color=black,
+    mark=triangle*,
+    error bars/.cd,
+    y dir=both, y explicit
+    ]
+    coordinates {
+    (0,0.2271094277) +- (0.02148858591,0.02148858591)
+    (1,0.1225421457) +- (0.010087687,0.010087687)
+    (2, 0.1009670642) +- (0.0119259675,0.0119259675)
+    };
+    
+        % 2 / 8
+    \addplot[
+    color=black,
+    mark=diamond,
+    error bars/.cd,
+    y dir=both, y explicit
+    ]
+    coordinates {
+    % 0.007732954779	0.006672491074	0.0002392205664
+    % 0.007732954779	0.006672491074	0.0002392205664
+    % 0.004861949423	0.004109470517	0.0003782360922
+    (0,0.009732954779) +- (0.004861949423,0.004861949423)	
+    (1,	0.006672491074) +- (0.004109470517,0.004109470517)
+    (2,	0.001392205664) +- (0.0003782360922,0.0003782360922)
+    };
+    
+     \addplot[
+    color=black,
+    mark=diamond*,
+    error bars/.cd,
+    y dir=both, y explicit
+    ]
+    coordinates {
+    (0, 0.3044995463) +- (0.05847592449,0.05847592449)
+    (1, 0.1502937745) +- (0.03344142329,0.03344142329)
+    (2, 0.1502937745) +- (0.0312239447,0.0312239447)
+    };
+    
+ 
+    
+    
+%    \addplot[
+%    color=black,
+%    mark=diamond,
+%    ]
+%    coordinates {
+%    (0.01,0.671)(0.05,0.4927)(0.1,0.5603)(0.15,0.5228)(0.2,0.0616)(0.25,0.0524)(0.3,0.037)
+%    %(0.01,1.490294575)(0.05,2.029551019)(0.1,1.784648632)(0.15,1.912560849)(0.2,16.23210247)(0.25,19.07556009)(0.3,27.56427156)
+%    };
+    \legend{2P/5, R2P/5, 3/5, R3/5, 4/4, R4/4, 2/7, R2/7}
+    
+\end{semilogyaxis}
+\end{tikzpicture}
+
+\begin{tikzpicture}[scale=\fscale]
+\begin{semilogyaxis}[
+    title={\Huge Runtimes},
+    width=\fpeval{\xscale*\axisdefaultwidth},
+    height=\fpeval{\yscale*\axisdefaultheight},
+    xlabel={Configuration},
+    ylabel style={align=center},
+    ylabel={Speedup (LOG)},
+    %xmin=-0.1, xmax=1.0,
+    ymin=0.0, ymax=700.0,
+    xtick={0,1,2},
+    xticklabels={$c_1$, $c_2$, $c_3$},
+    ytick={0.0,5,10,50, 100, 200, 400, 600},
+    legend pos=south west,
+    legend style={font=\small} ,
+    ymajorgrids=true,
+    grid style=dashed,
+    scaled ticks=false, 
+    log ticks with fixed point,
+    mark size=\fmarksize,
+    label style={font=\huge},
+    tick label style={/pgf/number format/fixed, font=\Large} 
+]
+
+     % 2 / 5
+\draw[thick, dashdotdotted] (axis cs:\pgfkeysvalueof{/pgfplots/xmin},5.280260454) -- (axis cs:\pgfkeysvalueof{/pgfplots/xmax},5.280260454);
+ 
+     \addplot[
+    color=black,
+    mark=o,
+    error bars/.cd,
+    y dir=both, y explicit
+    ]
+    coordinates {	
+    (0,148.5916113)  +- ( 28.67633135, 28.67633135)
+    (1,27.36742538)  +- ( 5.484978605, 5.484978605)
+    (2,4.037745717)  +- ( 1.340621861, 1.340621861)
+    }; % gadget 0.2030264513
+ 
+    
+         % 3 / 5
+   \draw[thick, dashdotted] (axis cs:\pgfkeysvalueof{/pgfplots/xmin},14.42928278) -- (axis cs:\pgfkeysvalueof{/pgfplots/xmax},14.42928278);
+ 
+\addplot[
+    color=black,
+    mark=square,
+    error bars/.cd,
+    y dir=both, y explicit
+    ]
+    coordinates {
+    %(0.01,)(0.05,)(0.1,)(0.15,)(0.2,)(0.25,)(0.3,)
+    (0,126.5236959)  +- ( 34.3227465, 34.3227465)
+    (1,44.93378081)  +- ( 19.0231073, 19.0231073)
+    (2,42.47304056)  +- ( 9.657585172, 9.657585172)
+    }; %gadget 0.3135253481
+    
+    % 4 / 4
+    \draw[thick, dotted] (axis cs:\pgfkeysvalueof{/pgfplots/xmin},71.41921237) -- (axis cs:\pgfkeysvalueof{/pgfplots/xmax},71.41921237);
+    
+    \addplot[
+    color=black,
+    mark=triangle,
+    error bars/.cd,
+    y dir=both, y explicit
+    ]
+    coordinates {
+    %(0.01,)(0.05,)(0.1,)(0.15,)(0.2,)(0.25,)(0.3,)
+    %(0.4,2.938333596
+    % 339.9028296	85.78140782	73.83057592
+    % 87.15347429	21.63496748	16.18285546
+    (0, 339.9028296)  +- (   87.15347429,  87.15347429)
+    (1, 85.78140782)  +- (  21.63496748, 21.63496748)
+    (2, 73.83057592)  +- (  16.18285546, 16.18285546)
+    }; 
+    
+    % 2 / 7
+    \draw[thick, dashed] (axis cs:\pgfkeysvalueof{/pgfplots/xmin},3.801633124) -- (axis cs:\pgfkeysvalueof{/pgfplots/xmax},3.801633124);
+    
+    \addplot[
+    color=black,
+    mark=diamond,
+    error bars/.cd,
+    y dir=both, y explicit
+    ]
+    coordinates {
+    %(0.01,)(0.05,)(0.1,)(0.15,)(0.2,)(0.25,)(0.3,)
+    %(0.4,2.938333596
+    % 30.77989275	9.450688453	5.555602498
+    % 9.016268122	2.464870905	1.594978868
+    (0, 30.77989275)  +- (   9.016268122,  9.016268122)
+    (1, 9.450688453)  +- (  2.464870905, 2.464870905)
+    (2, 5.555602498)  +- (  1.594978868, 1.594978868)
+    }; 
+   
+    
+        \legend{2P/5, 3/5, 4/4, 2/7}
+    
+  
+ 
+\end{semilogyaxis}
+\end{tikzpicture}
+\end{document}
